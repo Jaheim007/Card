@@ -67,6 +67,18 @@
       <property name="alternatingRowColors">
        <bool>false</bool>
       </property>
+      <property name="showGrid">
+       <bool>true</bool>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::DashLine</enum>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>215</number>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
       <column>
        <property name="text">
         <string>Prenom</string>
@@ -92,26 +104,21 @@
         <string>Email</string>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string>Image</string>
-       </property>
-      </column>
      </widget>
      <widget class="QLabel" name="label_14">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>60</y>
-        <width>371</width>
+        <x>60</x>
+        <y>70</y>
+        <width>471</width>
         <height>71</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+       <string notr="true"/>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Recherche par prénom&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; text-decoration: underline;&quot;&gt;Recherche par prénom&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="search_btn">
@@ -195,9 +202,9 @@ background-color: rgb(50, 121, 234);
      <widget class="QPushButton" name="take_screen">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>720</x>
         <y>760</y>
-        <width>341</width>
+        <width>261</width>
         <height>41</height>
        </rect>
       </property>
@@ -214,7 +221,7 @@ background-color: rgb(50, 121, 234);
 }</string>
       </property>
       <property name="text">
-       <string>prendre une capture d'écran</string>
+       <string>Prendre une capture d'écran</string>
       </property>
       <property name="autoDefault">
        <bool>true</bool>
@@ -229,9 +236,9 @@ background-color: rgb(50, 121, 234);
      <widget class="QPushButton" name="save_page">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>470</x>
         <y>760</y>
-        <width>281</width>
+        <width>231</width>
         <height>41</height>
        </rect>
       </property>

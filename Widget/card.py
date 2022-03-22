@@ -27,16 +27,17 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
         
 
     def openfile(self):
+        global img
         fimg = QFileDialog.getOpenFileName(self, 'Open file', 'C:\\Users\\jahei\\OneDrive\\Bureau\\ID\\Static', 'Image files (*.jpg *.png)')
         img = fimg[0]
         pixmap = QPixmap(img)
         self.add_photo.setPixmap(QPixmap(pixmap))
         self.add_photo.setScaledContents(True)
+        return fimg[0]
       
         
     def tablereults(self):
-    
-    
+        
         db = sqlite3.connect("userdata.db")
     
         dic = {
@@ -44,7 +45,7 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
             "Nom": self.nom_line.text(),
             "Sexe": self.comboBox.currentText(),
             "date":self.dateEdit_combo.text(),
-            "img": self.add_photo.text(), 
+            "img": img, 
             "email": self.email_line.text()
         }
         
@@ -52,21 +53,18 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
             QMessageBox.warning(self, "Error", "Veuillez saisir vos infomations")
         
         else:
-            with open(dic["img"], 'rb') as file:        
-                photo_image = file.read()
-
             cur = db.cursor()
             cur.execute(""" CREATE TABLE IF NOT EXISTS User(
-                        Prenom text, 
-                        Nom text, 
-                        Sexe text, 
-                        date text,
-                        email text, 
-                        img BLOB
+                        Prenom TEXT, 
+                        Nom TEXT, 
+                        Sexe TEXT, 
+                        date TEXT,
+                        email TEXT, 
+                        img TEXT
                     )""")
 
         
-            cur.execute("INSERT INTO User VALUES (:Prenom, :Nom, :Sexe, :date, :email, :img )", dic)
+            cur.execute("INSERT INTO User (Prenom, Nom, Sexe, date, email, img ) VALUES (?,?,?,?,?,?)", (dic["Prenom"],dic["Nom"],dic["Sexe"],dic["date"],dic["email"],dic["img"]))
             
             db.commit()
             db.close()
@@ -75,7 +73,6 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
             msg_content = "<h2><font color = ""green"">Votre Carte D'identité a été validée avec succès pour plus d'informations appelez le +225 01 43 50 48 13 </font></h2>\n".format(title = title)
             message = MIMEText(msg_content, 'html')
             message['From'] = 'Jaheim Kouaho <jaheimkouaho@gmail.com>'
-            # message['To'] = 'self.prenom_line.text() <self.email_line>'
             message['Subject'] = "Carte D'identité"
             msg_full = message.as_string()
             
@@ -86,21 +83,30 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
             sever.sendmail('jaheimkouaho@gmail.com', [self.email_line.text()], msg_full,)
             sever.quit()
             
-        
+            self.prenom_line.clear()
+            self.nom_line.clear()
+            self.comboBox.clear()
+            self.dateEdit_combo.clear()
+            self.add_photo.clear()
+            self.email_line.clear()
+                        
             self.stackedWidget.setCurrentWidget(self.page)
             self.show()
         
                 
 
     def back(self):
+        
         self.stackedWidget.setCurrentWidget(self.page_2)
         self.show()
 
     def save(self):
+        
         self.stackedWidget.setCurrentWidget(self.page_2)
         self.show()
     
     def refreshitems(self):
+        
         dbs = sqlite3.connect("userdata.db")
         cut = dbs.cursor()
         command =''' SELECT * FROM User ''' 
@@ -114,7 +120,6 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
                 self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     
     def serachresults(self):
-        
         
         db = sqlite3.connect("userdata.db")
         cur = db.cursor()
@@ -131,7 +136,6 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
     
     def take_to_next(self):    
         self.stackedWidget.setCurrentWidget(self.page_3)
-        
         self.show()
         
     def back2(self): 
