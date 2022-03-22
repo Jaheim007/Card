@@ -32,41 +32,41 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
         pixmap = QPixmap(img)
         self.add_photo.setPixmap(QPixmap(pixmap))
         self.add_photo.setScaledContents(True)
-    
-    def cover(self):
-        with open(filename, 'rd') as file:        
-            photo_image = file.read()
-        return photo_image
+      
         
-    
-
     def tablereults(self):
+    
+    
         db = sqlite3.connect("userdata.db")
-       
+    
         dic = {
             "Prenom":self.prenom_line.text(),
             "Nom": self.nom_line.text(),
             "Sexe": self.comboBox.currentText(),
-            "Date":self.dateEdit_combo.text(),
+            "date":self.dateEdit_combo.text(),
             "img": self.add_photo.text(), 
             "email": self.email_line.text()
         }
+        
         if self.prenom_line.text() == "" or self.nom_line.text() == "" or self.email_line.text() == "":
             QMessageBox.warning(self, "Error", "Veuillez saisir vos infomations")
         
         else:
+            with open(dic["img"], 'rb') as file:        
+                photo_image = file.read()
 
             cur = db.cursor()
             cur.execute(""" CREATE TABLE IF NOT EXISTS User(
                         Prenom text, 
                         Nom text, 
                         Sexe text, 
-                        Date text, 
+                        date text,
+                        email text, 
                         img BLOB
                     )""")
 
         
-            cur.execute("INSERT INTO User VALUES (:Prenom, :Nom, :Sexe, :Date, )", dic)
+            cur.execute("INSERT INTO User VALUES (:Prenom, :Nom, :Sexe, :date, :email, :img )", dic)
             
             db.commit()
             db.close()
@@ -86,11 +86,11 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
             sever.sendmail('jaheimkouaho@gmail.com', [self.email_line.text()], msg_full,)
             sever.quit()
             
-            
-
+        
             self.stackedWidget.setCurrentWidget(self.page)
             self.show()
-            
+        
+                
 
     def back(self):
         self.stackedWidget.setCurrentWidget(self.page_2)
@@ -114,6 +114,8 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
                 self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     
     def serachresults(self):
+        
+        
         db = sqlite3.connect("userdata.db")
         cur = db.cursor()
         word = self.search_line.text()
@@ -132,9 +134,9 @@ class AccountPage_ID(QMainWindow, Ui_Idcard):
         
         self.show()
         
-    # def back2(self): 
-    #     self.stackedWidget.setCurrentWidget(self.page)
-    #     self.show()   
+    def back2(self): 
+        self.stackedWidget.setCurrentWidget(self.page)
+        self.show()   
         
     
         
