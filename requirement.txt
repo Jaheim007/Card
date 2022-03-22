@@ -1,0 +1,5 @@
+Pyqt5
+pymegbox
+pyautogui
+Pil
+Pillow
